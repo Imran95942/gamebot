@@ -27,14 +27,14 @@ class Tictacfour extends Tictactoe
      *
      * @var string
      */
-    protected static $title = 'Tic-Tac-Four';
+    protected static $title = 'Крестики-нолики';
 
     /**
      * Game description
      *
      * @var string
      */
-    protected static $description = 'Tic-tac-four is a game for two players, X and O, who take turns marking the spaces in a 7×6 grid.';
+    protected static $description = 'Крестики-нолики-четыре - это игра для двух игроков, X и O, которые по очереди отмечают места в сетке 7 × 6..';
 
     /**
      * Game thumbnail image
