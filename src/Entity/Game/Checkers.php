@@ -369,13 +369,13 @@ class Checkers extends Game
     protected function drawAction()
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("Ты не в этой игре!"), true);
         }
 
         $data = &$this->data['game_data'];
 
         if ((isset($data['current_turn']) && $data['current_turn'] == 'E') || $data['board'] === null) {
-            return $this->answerCallbackQuery(__("This game has ended!", true));
+            return $this->answerCallbackQuery(__("Эта игра окончена!", true));
         }
 
         $this->defineSymbols();
@@ -403,7 +403,7 @@ class Checkers extends Game
             }
         }
 
-        return $this->answerCallbackQuery(__("You already voted!"), true);
+        return $this->answerCallbackQuery(__("Вы уже проголосовали!"), true);
     }
 
     /**
@@ -418,7 +418,7 @@ class Checkers extends Game
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("Ты не в этой игре!"), true);
         }
 
         $data = &$this->data['game_data'];
@@ -455,13 +455,13 @@ class Checkers extends Game
 
             $data['board'] = static::$board;
 
-            Utilities::debugPrint('Game initialization');
+            Utilities::debugPrint('Инициализация игры');
         } elseif ($args === null && $command === 'game') {
-            Utilities::debugPrint('No move data received');
+            Utilities::debugPrint('Данные о перемещении не получены');
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("This game has ended!", true));
+            return $this->answerCallbackQuery(__("Эта игра окончена!", true));
         }
 
         $this->max_y = count($data['board']);
@@ -483,7 +483,7 @@ class Checkers extends Game
                         if ($data['current_selection_lock'] == false) {
                             return $this->answerCallbackQuery();
                         } else {
-                            return $this->answerCallbackQuery(__("You must make a jump when possible!"), true);
+                            return $this->answerCallbackQuery(__("Вы должны сделать ход, когда это возможно!"), true);
                         }
                     } else {
                         Utilities::debugPrint('Listing possible moves');
@@ -506,7 +506,7 @@ class Checkers extends Game
 
                         if (in_array($args[0] . $args[1], $possibleMoves['valid_moves']) && $data['board'][$args[0]][$args[1]] == '') {
                             if ($forcedJump) {
-                                return $this->answerCallbackQuery(__("You must make a jump when possible!"), true);
+                                return $this->answerCallbackQuery(__("Вы должны делать ход, когда это возможно!"), true);
                             }
 
                             $data['board'][$args[0]][$args[1]] = $data['board'][$data['current_selection'][0]][$data['current_selection'][1]];
@@ -566,13 +566,13 @@ class Checkers extends Game
                     if ($this->getCurrentUserId() === $this->getUserId($data['settings'][$data['current_turn']]) && strpos($data['board'][$args[0]][$args[1]], $data['current_turn']) !== false) {
                         $data['current_selection'] = $args[0] . $args[1];
                     } elseif ($command === 'game') {
-                        return $this->answerCallbackQuery(__("Invalid selection!"), true);
+                        return $this->answerCallbackQuery(__("Неверный выбор!"), true);
                     } else {
-                        return $this->answerCallbackQuery(__("Invalid move!"), true);
+                        return $this->answerCallbackQuery(__("Неверный ход!"), true);
                     }
                 }
             } else {
-                return $this->answerCallbackQuery(__("It's not your turn!"), true);
+                return $this->answerCallbackQuery(__("Это не твоя очередь!"), true);
             }
         }
 
