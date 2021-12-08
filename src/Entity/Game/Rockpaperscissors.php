@@ -37,14 +37,14 @@ class Rockpaperscissors extends Game
      *
      * @var string
      */
-    protected static $title = 'Rock-Paper-Scissors';
+    protected static $title = 'Камень, ножницы, бумага';
 
     /**
      * Game description
      *
      * @var string
      */
-    protected static $description = 'Rock-paper-scissors is game in which each player simultaneously forms one of three shapes with an outstretched hand.';
+    protected static $description = 'Это развлекательная онлайн-игра камень, ножницы и бумага. Вам предстоит соревноваться с другими игроками за звание лучшего игрока.';
 
     /**
      * Game thumbnail image
@@ -72,7 +72,7 @@ class Rockpaperscissors extends Game
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("Ты не в этой игре!"), true);
         }
 
         $data = &$this->data['game_data'];
@@ -94,13 +94,13 @@ class Rockpaperscissors extends Game
             $data['round'] = 1;
             $data['current_turn'] = '';
 
-            Utilities::debugPrint('Game initialization');
+            Utilities::debugPrint('Инициализация игры');
         } elseif ($arg === null) {
-            Utilities::debugPrint('No move data received');
+            Utilities::debugPrint('Данные о перемещении не получены');
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("This game has ended!"), true);
+            return $this->answerCallbackQuery(__("Эта игра окончена!"), true);
         }
 
         Utilities::debugPrint('Argument: ' . $arg);
@@ -119,7 +119,7 @@ class Rockpaperscissors extends Game
             } else {
                 Utilities::debugPrint('Invalid move data: ' . $arg);
 
-                return $this->answerCallbackQuery(__("Invalid move!"), true);
+                return $this->answerCallbackQuery(__("Неверный ход!"), true);
             }
         }
 
@@ -156,11 +156,11 @@ class Rockpaperscissors extends Game
 
             $data['current_turn'] = 'E';
         } elseif (($data['guest_wins'] >= 3 && $data['guest_wins'] > $data['host_wins']) || $data['guest_wins'] >= $data['host_wins'] + 3 || ($data['round'] > 5 && $data['guest_wins'] > $data['host_wins'])) {
-            $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} won the game!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>';
+            $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} выиграл игру!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>';
 
             $data['current_turn'] = 'E';
         } else {
-            $gameOutput .= '<b>' . __("Round {ROUND} - make your picks!", ['{ROUND}' => $data['round']]) . '</b>';
+            $gameOutput .= '<b>' . __("Круглый {ROUND} - сделай свой выбор!", ['{ROUND}' => $data['round']]) . '</b>';
 
             if ($data['host_pick'] != '' && $data['guest_pick'] === '') {
                 $gameOutput .= PHP_EOL . '<b>' . __("Waiting for:") . '</b> ' . $this->getUserMention('guest');
