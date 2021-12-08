@@ -37,7 +37,7 @@ class Checkers extends Game
      *
      * @var string
      */
-    protected static $title = 'Checkers';
+    protected static $title = 'Шашки';
 
     /**
      * Game name
@@ -51,7 +51,7 @@ class Checkers extends Game
      *
      * @var string
      */
-    protected static $description = 'Checkers is game in which the goal is to capture the other player\'s checkers or make them impossible to move.';
+    protected static $description = 'Шашки классическая популярная настольная игра, очень простая, но очень веселая!';
 
     /**
      * Game thumbnail image
@@ -108,13 +108,13 @@ class Checkers extends Game
     protected function forfeitAction()
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("Ты не в этой игре!"), true);
         }
 
         $data = &$this->data['game_data'];
 
         if ((isset($data['current_turn']) && $data['current_turn'] == 'E') || $data['board'] === null) {
-            return $this->answerCallbackQuery(__("This game has ended!", true));
+            return $this->answerCallbackQuery(__("Эта игра окончена!", true));
         }
 
         $this->defineSymbols();
@@ -127,14 +127,14 @@ class Checkers extends Game
                 Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' surrendered');
 
                 $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} won!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL;
-                $gameOutput .= Emoji::whiteFlag() . ' <b>' . __("{PLAYER} surrendered!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL;
+                $gameOutput .= Emoji::whiteFlag() . ' <b>' . __("{PLAYER} сдался!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL;
 
                 $data['current_turn'] = 'E';
 
                 if ($this->saveData($this->data)) {
                     return $this->editMessage(
                         $this->getUserMention('host') . ' (' . (($data['settings']['X'] == 'host') ? $this->symbols['X'] : $this->symbols['O']) . ')' . ' vs. ' . $this->getUserMention('guest') . ' (' . (($data['settings']['O'] == 'guest') ? $this->symbols['O'] : $this->symbols['X']) . ')' . PHP_EOL . PHP_EOL . $gameOutput,
-                        $this->gameKeyboard($data['board'], 'surrender')
+                        $this->gameKeyboard($data['board'], 'Сдаться')
                     );
                 }
             }
@@ -143,7 +143,7 @@ class Checkers extends Game
             $data['vote']['host']['surrender'] = true;
 
             if ($this->saveData($this->data)) {
-                return $this->answerCallbackQuery(__("Press the button again to surrender!"), true);
+                return $this->answerCallbackQuery(__("Нажмите кнопку еще раз, чтобы сдаться!"), true);
             }
         }
 
@@ -152,14 +152,14 @@ class Checkers extends Game
                 Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' surrendered');
 
                 $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} won!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL;
-                $gameOutput .= Emoji::whiteFlag() . ' <b>' . __("{PLAYER} surrendered!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL;
+                $gameOutput .= Emoji::whiteFlag() . ' <b>' . __("{PLAYER} сдался!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL;
 
                 $data['current_turn'] = 'E';
 
                 if ($this->saveData($this->data)) {
                     return $this->editMessage(
                         $this->getUserMention('host') . ' (' . (($data['settings']['X'] == 'host') ? $this->symbols['X'] : $this->symbols['O']) . ')' . ' vs. ' . $this->getUserMention('guest') . ' (' . (($data['settings']['O'] == 'guest') ? $this->symbols['O'] : $this->symbols['X']) . ')' . PHP_EOL . PHP_EOL . $gameOutput,
-                        $this->gameKeyboard($data['board'], 'surrender')
+                        $this->gameKeyboard($data['board'], 'сдаться')
                     );
                 }
             }
@@ -168,7 +168,7 @@ class Checkers extends Game
             $data['vote']['guest']['surrender'] = true;
 
             if ($this->saveData($this->data)) {
-                return $this->answerCallbackQuery(__("Press the button again to surrender!"), true);
+                return $this->answerCallbackQuery(__("Нажмите кнопку еще раз, чтобы сдаться!"), true);
             }
         }
 
@@ -245,7 +245,7 @@ class Checkers extends Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Play again!'),
+                        'text'          => __('Играй снова!'),
                         'callback_data' => self::getCode() . ';start',
                     ]
                 ),
@@ -255,7 +255,7 @@ class Checkers extends Game
                 $inline_keyboard[] = [
                     new InlineKeyboardButton(
                         [
-                            'text'          => __('Surrender'),
+                            'text'          => __('Сдаваться'),
                             'callback_data' => self::getCode() . ';forfeit',
                         ]
                     ),
@@ -275,13 +275,13 @@ class Checkers extends Game
         $inline_keyboard[] = [
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Quit'),
+                    'text'          => __('Покинуть'),
                     'callback_data' => self::getCode() . ';quit',
                 ]
             ),
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Kick'),
+                    'text'          => __('выгнать'),
                     'callback_data' => self::getCode() . ';kick',
                 ]
             ),
@@ -558,7 +558,7 @@ class Checkers extends Game
                             } elseif ($this->getCurrentUserId() === $this->getUserId($data['settings'][$data['current_turn']]) && strpos($data['board'][$args[0]][$args[1]], $data['current_turn']) !== false) {
                                 $data['current_selection'] = $args[0] . $args[1];
                             } else {
-                                return $this->answerCallbackQuery(__("Invalid move!"), true);
+                                return $this->answerCallbackQuery(__("Неверный ход!"), true);
                             }
                         }
                     }
