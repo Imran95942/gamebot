@@ -610,7 +610,7 @@ class Checkers extends Game
             $gameOutput .= Emoji::playButton() . ' ' . $this->getUserMention($data['settings'][$data['current_turn']]) . ' (' . $this->symbols[$data['current_turn']] . ')';
 
             if ($data['current_selection'] == '') {
-                $gameOutput .= "\n" . __("(Выберите фигуру, которую хотите переместить)");
+                $gameOutput .= "\n" . __("(Выберите шашку, которую хотите переместить)");
             } else {
                 $gameOutput .= "\n" . __("(Selected: {COORDINATES})", ['{COORDINATES}' => ($data['current_selection'][0] + 1) . '-' . ($data['current_selection'][1] + 1)]);
 
