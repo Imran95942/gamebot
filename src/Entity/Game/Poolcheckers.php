@@ -36,7 +36,7 @@ class Poolcheckers extends Checkers
      *
      * @var string
      */
-    protected static $title = 'Pool Checkers';
+    protected static $title = 'Шашки Pool';
 
     /**
      * Game name
@@ -77,13 +77,13 @@ class Poolcheckers extends Checkers
     protected function drawAction()
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("Ты не в этой игре!"), true);
         }
 
         $data = &$this->data['game_data'];
 
         if ((isset($data['current_turn']) && $data['current_turn'] == 'E') || $data['board'] === null) {
-            return $this->answerCallbackQuery(__("This game has ended!", true));
+            return $this->answerCallbackQuery(__("Эта игра окончена!", true));
         }
 
         $this->defineSymbols();
@@ -130,7 +130,7 @@ class Poolcheckers extends Checkers
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("Ты не в этой игре!"), true);
         }
 
         $data = &$this->data['game_data'];
@@ -169,11 +169,11 @@ class Poolcheckers extends Checkers
 
             Utilities::debugPrint('Game initialization');
         } elseif ($args === null && $command === 'game') {
-            Utilities::debugPrint('No move data received');
+            Utilities::debugPrint('Данные о перемещении не получены');
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("This game has ended!", true));
+            return $this->answerCallbackQuery(__("Эта игра окончена!", true));
         }
 
         $this->max_y = count($data['board']);
@@ -188,13 +188,13 @@ class Poolcheckers extends Checkers
         if ($command === 'game') {
             if ($this->getCurrentUserId() === $this->getUserId($data['settings'][$data['current_turn']])) {
                 if ($data['current_selection'] != '') {
-                    Utilities::debugPrint('Current selection: ' . $data['current_selection']);
+                    Utilities::debugPrint('Текущий выбор: ' . $data['current_selection']);
 
                     if ($data['current_selection'] == $args[0] . $args[1]) {
                         if ($data['current_selection_lock'] == false) {
                             return $this->answerCallbackQuery();
                         } else {
-                            return $this->answerCallbackQuery(__("You must make a jump when possible!"), true);
+                            return $this->answerCallbackQuery(__("Вы должны сделать ход, когда это возможно!"), true);
                         }
                     } else {
                         Utilities::debugPrint('Listing possible moves');
@@ -217,7 +217,7 @@ class Poolcheckers extends Checkers
 
                         if (in_array($args[0] . $args[1], $possibleMoves['valid_moves']) && isset($data['board'][$args[0]][$args[1]]) && $data['board'][$args[0]][$args[1]] == '') {
                             if ($forcedJump) {
-                                return $this->answerCallbackQuery(__("You must make a jump when possible!"), true);
+                                return $this->answerCallbackQuery(__("Вы должны сделать ход, когда это возможно!"), true);
                             }
 
                             $data['board'][$args[0]][$args[1]] = $data['board'][$data['current_selection'][0]][$data['current_selection'][1]];
@@ -268,11 +268,11 @@ class Poolcheckers extends Checkers
                             }
                         } else {
                             if ($data['current_selection_lock'] == true) {
-                                return $this->answerCallbackQuery(__("You must make a jump when possible!"), true);
+                                return $this->answerCallbackQuery(__("Вы должны сделать ход, когда это возможно!"), true);
                             } elseif ($this->getCurrentUserId() === $this->getUserId($data['settings'][$data['current_turn']]) && strpos($data['board'][$args[0]][$args[1]], $data['current_turn']) !== false) {
                                 $data['current_selection'] = $args[0] . $args[1];
                             } else {
-                                return $this->answerCallbackQuery(__("Invalid move!"), true);
+                                return $this->answerCallbackQuery(__("Неверный ход!"), true);
                             }
                         }
                     }
@@ -280,17 +280,17 @@ class Poolcheckers extends Checkers
                     if ($this->getCurrentUserId() == $this->getUserId($data['settings'][$data['current_turn']]) && strpos($data['board'][$args[0]][$args[1]], $data['current_turn']) !== false) {
                         $data['current_selection'] = $args[0] . $args[1];
                     } elseif ($command === 'game') {
-                        return $this->answerCallbackQuery(__("Invalid selection!"), true);
+                        return $this->answerCallbackQuery(__("Неверный выбор!"), true);
                     } else {
-                        return $this->answerCallbackQuery(__("Invalid move!"), true);
+                        return $this->answerCallbackQuery(__("Неверный ход!"), true);
                     }
                 }
             } else {
-                return $this->answerCallbackQuery(__("It's not your turn!"), true);
+                return $this->answerCallbackQuery(__("Это не твоя очередь!"), true);
             }
         }
 
-        Utilities::debugPrint('Checking if game is over');
+        Utilities::debugPrint('Проверка, окончена ли игра');
 
         $isOver = $this->isGameOver($data['board']);
 
@@ -316,9 +316,9 @@ class Poolcheckers extends Checkers
             $this->selection = $data['current_selection'];
 
             if ($data['vote']['host']['draw']) {
-                $gameOutput .= '<b>' . __("{PLAYER} voted to draw!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
+                $gameOutput .= '<b>' . __("{PLAYER} проголосовал за розыгрыш!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
             } elseif ($data['vote']['guest']['draw']) {
-                $gameOutput .= '<b>' . __("{PLAYER} voted to draw!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
+                $gameOutput .= '<b>' . __("{PLAYER} проголосовал за розыгрыш!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
             }
 
             $gameOutput .= Emoji::playButton() . ' ' . $this->getUserMention($data['settings'][$data['current_turn']]) . ' (' . $this->symbols[$data['current_turn']] . ')';
@@ -329,13 +329,13 @@ class Poolcheckers extends Checkers
                 $gameOutput .= "\n" . __("(Selected: {COORDINATES})", ['{COORDINATES}' => ($data['current_selection'][0] + 1) . '-' . ($data['current_selection'][1] + 1)]);
 
                 if ($data['current_selection_lock'] == false) {
-                    $gameOutput .= "\n" . __("(Make your move or select different piece)");
+                    $gameOutput .= "\n" . __("(Сделайте свой ход или выберите другую фигуру)");
                 } else {
-                    $gameOutput .= "\n" . __("(Your move must continue)");
+                    $gameOutput .= "\n" . __("(Ваш ход должен продолжаться)");
                 }
             }
 
-            Utilities::debugPrint('Game is still in progress');
+            Utilities::debugPrint('Игра все еще продолжается');
         }
 
         if ($this->saveData($this->data)) {
