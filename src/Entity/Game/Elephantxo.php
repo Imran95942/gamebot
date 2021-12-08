@@ -27,14 +27,14 @@ class Elephantxo extends Tictactoe
      *
      * @var string
      */
-    protected static $title = 'Elephant XO';
+    protected static $title = 'Крестики-Нолики';
 
     /**
      * Game description
      *
      * @var string
      */
-    protected static $description = 'Elephant XO is a game for two players, X and O, who take turns marking the spaces in a 8×8 grid.';
+    protected static $description = 'Знаменитая на весь мир игра - "Крестики-Нолики"! Играйте одни или с другом в различных режимах: от 3x3 до 8x8, а также в безграничном режиме! .';
 
     /**
      * Game thumbnail image
