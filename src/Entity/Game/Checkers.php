@@ -572,11 +572,11 @@ class Checkers extends Game
                     }
                 }
             } else {
-                return $this->answerCallbackQuery(__("Это не твоя очередь!"), true);
+                return $this->answerCallbackQuery(__("Не твоя очередь!"), true);
             }
         }
 
-        Utilities::debugPrint('Checking if game is over');
+        Utilities::debugPrint('Проверка, окончена ли игра');
 
         $isOver = $this->isGameOver($data['board']);
 
@@ -602,26 +602,26 @@ class Checkers extends Game
             $this->selection = $data['current_selection'];
 
             if ($data['vote']['host']['draw']) {
-                $gameOutput .= '<b>' . __("{PLAYER} voted to draw!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
+                $gameOutput .= '<b>' . __("{PLAYER} проголосовал за розыгрыш!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
             } elseif ($data['vote']['guest']['draw']) {
-                $gameOutput .= '<b>' . __("{PLAYER} voted to draw!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
+                $gameOutput .= '<b>' . __("{PLAYER} проголосовал за розыгрыш!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
             }
 
             $gameOutput .= Emoji::playButton() . ' ' . $this->getUserMention($data['settings'][$data['current_turn']]) . ' (' . $this->symbols[$data['current_turn']] . ')';
 
             if ($data['current_selection'] == '') {
-                $gameOutput .= "\n" . __("(Select the piece you want to move)");
+                $gameOutput .= "\n" . __("(Выберите фигуру, которую хотите переместить)");
             } else {
                 $gameOutput .= "\n" . __("(Selected: {COORDINATES})", ['{COORDINATES}' => ($data['current_selection'][0] + 1) . '-' . ($data['current_selection'][1] + 1)]);
 
                 if ($data['current_selection_lock'] == false) {
-                    $gameOutput .= "\n" . __("(Make your move or select different piece)");
+                    $gameOutput .= "\n" . __("(Сделайте свой ход или выберите другую фигуру)");
                 } else {
-                    $gameOutput .= "\n" . __("(Your move must continue)");
+                    $gameOutput .= "\n" . __("(Ваш ход должен продолжаться)");
                 }
             }
 
-            Utilities::debugPrint('Game is still in progress');
+            Utilities::debugPrint('Игра все еще продолжается');
         }
 
         if ($this->saveData($this->data)) {
