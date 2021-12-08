@@ -35,14 +35,14 @@ class Connectfour extends Game
      *
      * @var string
      */
-    protected static $title = 'Connect Four';
+    protected static $title = 'Собери четвёрку';
 
     /**
      * Game description
      *
      * @var string
      */
-    protected static $description = 'Connect Four is a connection game in which the players take turns dropping colored discs from the top into a seven-column, six-row vertically suspended grid.';
+    protected static $description = 'Цель игры заключается в том, чтобы выстроить четыре фишки в ряд по горизонтали, вертикали или диагонали.';
 
     /**
      * Game thumbnail image
@@ -112,17 +112,17 @@ class Connectfour extends Game
             $data['current_turn'] = 'X';
             $data['board'] = static::$board;
 
-            Utilities::debugPrint('Game initialization');
+            Utilities::debugPrint('Инициализация игры');
         } elseif (!isset($args)) {
-            Utilities::debugPrint('No move data received');
+            Utilities::debugPrint('Данные о перемещении не получены');
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("This game has ended!", true));
+            return $this->answerCallbackQuery(__("Эта игра окончена!", true));
         }
 
         if ($this->getCurrentUserId() !== $this->getUserId($data['settings'][$data['current_turn']]) && $command !== 'start') {
-            return $this->answerCallbackQuery(__("It's not your turn!"), true);
+            return $this->answerCallbackQuery(__("Не твоя очередь!"), true);
         }
 
         $this->max_y = count($data['board']);
@@ -149,9 +149,9 @@ class Connectfour extends Game
                         return $this->answerCallbackQuery(__("Invalid move!"), true);
                     }
                 } else {
-                    Utilities::debugPrint('Invalid move data: ' . ($args[0]) . ' - ' . ($y));
+                    Utilities::debugPrint('Недействительные данные о перемещении: ' . ($args[0]) . ' - ' . ($y));
 
-                    return $this->answerCallbackQuery(__("Invalid move!"), true);
+                    return $this->answerCallbackQuery(__("Неверный ход!"), true);
                 }
             }
 
@@ -164,7 +164,7 @@ class Connectfour extends Game
         if (!empty($isOver) && in_array($isOver, ['X', 'O'])) {
             $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} won!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings'][$isOver]) . '<b>']) . '</b>';
         } elseif ($isOver == 'T') {
-            $gameOutput = Emoji::chequeredFlag() . ' <b>' . __("Game ended with a draw!") . '</b>';
+            $gameOutput = Emoji::chequeredFlag() . ' <b>' . __("Игра закончилась ничьей!") . '</b>';
         }
 
         if (!empty($isOver) && in_array($isOver, ['X', 'O', 'T'])) {
