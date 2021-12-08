@@ -37,14 +37,14 @@ class Russianroulette extends Game
      *
      * @var string
      */
-    protected static $title = 'Russian Roulette';
+    protected static $title = 'Русская рулетка';
 
     /**
      * Game description
      *
      * @var string
      */
-    protected static $description = 'Russian roulette is a game of chance in which a player places a single round in a revolver, spins the cylinder, places the muzzle against their head, and pulls the trigger.';
+    protected static $description = 'Русская рулетка - это азартная игра, в которой игрок кладет один патрон в револьвер, вращает цилиндр, приставляет дуло к голове и нажимает на курок.';
 
     /**
      * Game thumbnail image
@@ -106,11 +106,11 @@ class Russianroulette extends Game
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("This game has ended!"), true);
+            return $this->answerCallbackQuery(__("Эта игра окончена!"), true);
         }
 
         if ($this->getCurrentUserId() !== $this->getUserId($data['settings'][$data['current_turn']]) && $command !== 'start') {
-            return $this->answerCallbackQuery(__("It's not your turn!"), true);
+            return $this->answerCallbackQuery(__("Это не твоя очередь!"), true);
         }
 
         $hit = '';
@@ -124,13 +124,13 @@ class Russianroulette extends Game
             if (!isset($data['cylinder'][$arg - 1])) {
                 Utilities::debugPrint('Bad move data received: ' . $arg);
 
-                return $this->answerCallbackQuery(__("Invalid move!"), true);
+                return $this->answerCallbackQuery(__("Неверный ход!"), true);
             }
 
             Utilities::debugPrint('Chamber selected: ' . $arg);
 
             if ($data['cylinder'][$arg - 1] === 'X') {
-                Utilities::debugPrint('Chamber contains bullet, player is dead');
+                Utilities::debugPrint('Барабан содержит пулю, игрок мертв');
 
                 if ($data['current_turn'] == 'X') {
                     $gameOutput = Emoji::skull() . ' <b>' . __("{PLAYER} died! (kicked)", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['X']) . '<b>']) . '</b>' . PHP_EOL;
@@ -146,8 +146,8 @@ class Russianroulette extends Game
 
                     $data['current_turn'] = 'E';
                 } elseif ($data['current_turn'] == 'O') {
-                    $gameOutput = Emoji::skull() . ' <b>' . __("{PLAYER} died! (kicked)", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['O']) . '<b>']) . '</b>' . PHP_EOL;
-                    $gameOutput .= Emoji::trophy() . ' <b>' . __("{PLAYER} won!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['X']) . '<b>']) . '</b>';
+                    $gameOutput = Emoji::skull() . ' <b>' . __("{PLAYER} умер! (kicked)", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['O']) . '<b>']) . '</b>' . PHP_EOL;
+                    $gameOutput .= Emoji::trophy() . ' <b>' . __("{PLAYER} победил!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['X']) . '<b>']) . '</b>';
 
 
                     if ($data['settings']['X'] === 'host') {
@@ -294,7 +294,7 @@ class Russianroulette extends Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Quit'),
+                        'text'          => __('Покинуть'),
                         'callback_data' => self::getCode() . ';quit',
                     ]
                 ),
@@ -309,13 +309,13 @@ class Russianroulette extends Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Quit'),
+                        'text'          => __('Покинуть'),
                         'callback_data' => self::getCode() . ';quit',
                     ]
                 ),
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Join'),
+                        'text'          => __('Присоединиться'),
                         'callback_data' => self::getCode() . ';join',
                     ]
                 ),
