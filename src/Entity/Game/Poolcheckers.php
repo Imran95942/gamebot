@@ -329,7 +329,7 @@ class Poolcheckers extends Checkers
                 $gameOutput .= "\n" . __("(Selected: {COORDINATES})", ['{COORDINATES}' => ($data['current_selection'][0] + 1) . '-' . ($data['current_selection'][1] + 1)]);
 
                 if ($data['current_selection_lock'] == false) {
-                    $gameOutput .= "\n" . __("(Сделайте свой ход или выберите другую фигуру)");
+                    $gameOutput .= "\n" . __("(Сделайте свой ход или выберите другую шашку)");
                 } else {
                     $gameOutput .= "\n" . __("(Ваш ход должен продолжаться)");
                 }
