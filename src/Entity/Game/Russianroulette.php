@@ -163,7 +163,7 @@ class Russianroulette extends Game
                 $hit = $arg;
 
                 if ($this->saveData($this->data)) {
-                    return $this->editMessage($gameOutput . PHP_EOL . PHP_EOL . __('{PLAYER_HOST} ждет, пока противник присоединится...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Нажмите {BUTTON} кнопка, чтобы присоединиться.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->customGameKeyboard($hit));
+                    return $this->editMessage($gameOutput . PHP_EOL . PHP_EOL . __('{PLAYER_HOST} ждет, пока противник присоединится...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Нажмите {BUTTON} кнопка, чтобы присоединиться.', ['{BUTTON}' => '<b>\'' . __('Присоединиться') . '\'</b>']), $this->customGameKeyboard($hit));
                 }
             }
 
@@ -316,7 +316,7 @@ class Russianroulette extends Game
                 new InlineKeyboardButton(
                     [
                         'text'          => __('Присоединиться'),
-                        'callback_data' => self::getCode() . ';join',
+                        'callback_data' => self::getCode() . ';Присоединиться',
                     ]
                 ),
             ];
