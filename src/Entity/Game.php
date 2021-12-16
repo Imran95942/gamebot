@@ -474,7 +474,7 @@ class Game
         $this->data['game_data'] = null;
 
         if ($this->saveData($this->data)) {
-            return $this->editMessage(__('{PLAYER_HOST} ждет, когда присоединится противник...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Нажмите кнопку {BUTTON}, чтобы присоединиться.', ['{BUTTON}' => '<b>\'' . __('Присоединиться') . '\'</b>']), $this->getReplyMarkup('lobby'));
+            return $this->editMessage(__('{PLAYER_HOST} ждет, когда присоединится противник...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Нажмите {BUTTON} кнопка, чтобы присоединиться.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
         }
 
         throw new StorageException();
@@ -526,7 +526,7 @@ class Game
     }
 
     /**
-     * Handle 'Присоединиться' game action
+     * Handle 'join' game action
      *
      * @return ServerResponse
      *
@@ -542,7 +542,7 @@ class Game
             $this->data['players']['host'] = (array) $this->getCurrentUser(true);
 
             if ($this->saveData($this->data)) {
-                return $this->editMessage(__('{PLAYER_HOST} ждет, когда присоединится противник...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Нажмите кнопку {BUTTON}, чтобы присоединиться.', ['{BUTTON}' => '<b>\'' . __('Присоединиться') . '\'</b>']), $this->getReplyMarkup('lobby'));
+                return $this->editMessage(__('{PLAYER_HOST} ждет, когда присоединится противник...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Нажмите кнопку {BUTTON}, чтобы присоединиться.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
             }
 
             throw new StorageException();
@@ -620,7 +620,7 @@ class Game
                 $this->data['players']['guest'] = null;
 
                 if ($this->saveData($this->data)) {
-                    return $this->editMessage(__('{PLAYER} quit...', ['{PLAYER}' => $currentUserMention]) . PHP_EOL . __("{PLAYER_HOST} is now the host.", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("{PLAYER_HOST} ждет, когда присоединится противник...", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("Нажмите кнопку {BUTTON}, чтобы присоединиться.", ['{BUTTON}' => '<b>\'' . __('Присоединиться') . '\'</b>']), $this->getReplyMarkup('lobby'));
+                    return $this->editMessage(__('{PLAYER} quit...', ['{PLAYER}' => $currentUserMention]) . PHP_EOL . __("{PLAYER_HOST} is now the host.", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("{PLAYER_HOST} ждет присоединения оппонента ...", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("Нажмите {BUTTON} кнопка, чтобы присоединиться.", ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
                 }
 
                 throw new StorageException();
@@ -645,7 +645,7 @@ class Game
             $this->data['players']['guest'] = null;
 
             if ($this->saveData($this->data)) {
-                return $this->editMessage(__('{PLAYER} quit...', ['{PLAYER}' => $currentUserMention]) . PHP_EOL . __("{PLAYER_HOST} ждет, когда присоединится противник...", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("Нажмите кнопку {BUTTON}, чтобы присоединиться.", ['{BUTTON}' => '<b>\'' . __('Присоединиться') . '\'</b>']), $this->getReplyMarkup('lobby'));
+                return $this->editMessage(__('{PLAYER} quit...', ['{PLAYER}' => $currentUserMention]) . PHP_EOL . __("{PLAYER_HOST} ", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("Нажмите кнопку {BUTTON}, чтобы присоединиться.", ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
             }
 
             throw new StorageException();
@@ -682,7 +682,7 @@ class Game
             $this->data['players']['guest'] = null;
 
             if ($this->saveData($this->data)) {
-                return $this->editMessage(__('{PLAYER_GUEST} was kicked...', ['{PLAYER_GUEST}' => $user]) . PHP_EOL . __("{PLAYER_HOST} ждет, когда присоединится противник...", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("Нажмите кнопку {BUTTON}, чтобы присоединиться.", ['{BUTTON}' => '<b>\'' . __('Присоединиться') . '\'</b>']), $this->getReplyMarkup('lobby'));
+                return $this->editMessage(__('{PLAYER_GUEST} was kicked...', ['{PLAYER_GUEST}' => $user]) . PHP_EOL . __("{PLAYER_HOST} ждет присоединения оппонента ...", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("Нажмите кнопку {BUTTON}, чтобы присоединиться.", ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
             }
 
             throw new StorageException();
@@ -787,7 +787,7 @@ class Game
             return $this->editMessage(__('{PLAYER_GUEST} joined...', ['{PLAYER_GUEST}' => $this->getUserMention('guest')]) . PHP_EOL . __('Waiting for {PLAYER} to start...', ['{PLAYER}' => $this->getUserMention('host')]) . PHP_EOL . __('Press {BUTTON} button to start.', ['{BUTTON}' => '<b>\'' . __('Play') . '\'</b>']), $this->getReplyMarkup('pregame'));
         }
 
-        return $this->editMessage(__('{PLAYER_HOST} ждет, когда присоединится противник...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Нажмите кнопку {BUTTON}, чтобы присоединиться.', ['{BUTTON}' => '<b>\'' . __('Присоединиться') . '\'</b>']), $this->getReplyMarkup('lobby'));
+        return $this->editMessage(__('{PLAYER_HOST} ждет присоединения оппонента ...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Нажмите кнопку {BUTTON}, чтобы присоединиться.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
     }
 
     /**
@@ -840,8 +840,8 @@ class Game
             ),
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Присоединиться'),
-                    'callback_data' => static::getCode() . ";Присоединиться",
+                    'text'          => __('Join'),
+                    'callback_data' => static::getCode() . ";join",
                 ]
             ),
         ];
