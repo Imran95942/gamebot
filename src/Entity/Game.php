@@ -631,7 +631,7 @@ class Game
             $this->data['players']['host'] = null;
 
             if ($this->saveData($this->data)) {
-                return $this->editMessage('<i>' . __("This game session is empty.") . '</i>', $this->getReplyMarkup('empty'));
+                return $this->editMessage('<i>' . __("Чтобы создать игру нажмите кнопку") . '</i>', $this->getReplyMarkup('empty'));
             }
 
             throw new StorageException();
@@ -705,15 +705,15 @@ class Game
     protected function startAction(): ServerResponse
     {
         if (!$this->getUser('host')) {
-            return $this->editMessage('<i>' . __("This game session is empty.") . '</i>', $this->getReplyMarkup('empty'));
+            return $this->editMessage('<i>' . __("Чтобы создать игру нажмите кнопку") . '</i>', $this->getReplyMarkup('empty'));
         }
 
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("Ты не в этой игре!"), true);
         }
 
         if ($this->getCurrentUserId() !== $this->getUserId('host')) {
-            return $this->answerCallbackQuery(__("You're not the host!"), true);
+            return $this->answerCallbackQuery(__("Ты не хозяин!"), true);
         }
 
         if (!$this->getUser('host') || !$this->getUser('guest')) {
@@ -802,7 +802,7 @@ class Game
             [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Create'),
+                        'text'          => __('Создать игру'),
                         'callback_data' => static::getCode() . ';new',
                     ]
                 ),
